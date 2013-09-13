@@ -1,0 +1,28 @@
+- MultiPlatform: defaultapplication.gif f�r NativeFileType dynamisch aktualisieren
+  Init-Konflikt Util </> Configurator
+- DropTarget: Frame-Erkennung stabilisieren & dokumentieren
+- plugin.xml Beschreibung anpassen
+
+- build.xml
+- Subversion
+
+
+
+N E W
+=====
+
+- dirs parent is opened in shell when dir itself should be opened (with\ space)
+- Unable to determine frame for project RubyTest --> no drag and drop?
+
+
+
+
+L A T E R
+=========
+    <h3>Release 2.0 - External Tool Configuration, Linux support</h3>
+    <ul><li>Plugin Actions can be configured as External Tools.
+            <ul><li>Group Name: Native Neighbourhood, Action names:
+            </li><li>Execute with default application
+            </li><li>Show in file manager
+            </li><li>Open command shell
+            </li></ul>

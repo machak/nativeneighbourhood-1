@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="nativeneighbourhood" default="all" xmlns="http://plugins.intellij.net/plugin.dtd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://plugins.intellij.net/plugin.dtd ">
+
+    <property file="build.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+  <property name="skip.tests" value="true"/>
+   -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value="-target 1.5"/>
+    <property name="compiler.max.memory" value="128m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.sbas/**"/>
+        <exclude name="**/.IJI.*/**"/>
+        <exclude name="**/vssver.scc/**"/>
+        <exclude name="**/vssver2.scc/**"/>
+        <exclude name="**/*~/**"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+        <include name="**/?*.bat"/>
+        <!-- windows batch files -->
+        <include name="**/?*.sh"/>
+        <!-- mac osx batch files -->
+    </patternset>
+
+
+    <!-- Global Libraries -->
+
+
+    <!-- Application Server Libraries -->
+
+    <!-- Modules -->
+
+
+    <!-- Module NativeNeighbourhood -->
+
+    <dirname property="module.nativeneighbourhood.basedir" file="${ant.file}"/>
+
+
+    <property name="compiler.args.nativeneighbourhood" value="${compiler.args}"/>
+
+    <property name="nativeneighbourhood.output.dir" value="${module.nativeneighbourhood.basedir}/classes"/>
+    <property name="nativeneighbourhood.testoutput.dir" value="${module.nativeneighbourhood.basedir}/testclasses"/>
+
+    <path id="nativeneighbourhood.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="nativeneighbourhood.module.classpath"/>
+
+    <path id="nativeneighbourhood.runtime.module.classpath">
+        <pathelement location="${nativeneighbourhood.output.dir}"/>
+        <pathelement location="${nativeneighbourhood.testoutput.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.nativeneighbourhood">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.nativeneighbourhood">
+        <patternset refid="excluded.from.module.nativeneighbourhood"/>
+    </patternset>
+
+    <path id="nativeneighbourhood.module.sourcepath">
+        <dirset dir="${module.nativeneighbourhood.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+    <path id="nativeneighbourhood.module.test.sourcepath">
+        <dirset dir="${module.nativeneighbourhood.basedir}">
+            <include name="test/src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.nativeneighbourhood"
+            depends="compile.module.nativeneighbourhood.production,compile.module.nativeneighbourhood.tests"
+            description="Compile module NativeNeighbourhood"/>
+
+    <target name="compile.module.nativeneighbourhood.production"
+            description="Compile module NativeNeighbourhood; production classes">
+        <mkdir dir="${nativeneighbourhood.output.dir}"/>
+        <javac destdir="${nativeneighbourhood.output.dir}" debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.nativeneighbourhood}"/>
+            <bootclasspath refid="nativeneighbourhood.module.bootclasspath"/>
+            <classpath refid="nativeneighbourhood.module.classpath"/>
+            <src refid="nativeneighbourhood.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.nativeneighbourhood"/>
+        </javac>
+
+        <copy todir="${nativeneighbourhood.output.dir}">
+            <fileset dir="${module.nativeneighbourhood.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.nativeneighbourhood.tests" depends="compile.module.nativeneighbourhood.production"
+            description="compile module NativeNeighbourhood; test classes" unless="skip.tests">
+        <mkdir dir="${nativeneighbourhood.testoutput.dir}"/>
+        <javac destdir="${nativeneighbourhood.testoutput.dir}" debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.nativeneighbourhood}"/>
+            <classpath refid="nativeneighbourhood.module.classpath"/>
+            <classpath location="${nativeneighbourhood.output.dir}"/>
+            <src refid="nativeneighbourhood.module.test.sourcepath"/>
+            <patternset refid="excluded.from.compilation.nativeneighbourhood"/>
+        </javac>
+
+        <copy todir="${nativeneighbourhood.testoutput.dir}">
+            <fileset dir="${module.nativeneighbourhood.basedir}/test/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean.module.nativeneighbourhood" description="cleanup module">
+        <delete dir="${nativeneighbourhood.output.dir}"/>
+        <delete dir="${nativeneighbourhood.testoutput.dir}"/>
+    </target>
+
+    <property name="nativeneighbourhood.plugin.exploded.dir"
+              value="${module.nativeneighbourhood.basedir}/../../../.IntelliJIdea70/system/plugins-sandbox/plugins/NativeNeighbourhood"/>
+    <property name="nativeneighbourhood.path.jar"
+              value="${module.nativeneighbourhood.basedir}/NativeNeighbourhood_${release.version}.zip"/>
+    <target name="plugin.build.nativeneighbourhood" depends="compile.module.nativeneighbourhood"
+            description="Build configured plugin directories and archives for module 'NativeNeighbourhood'">
+        <antcall target="plugin.build.exploded.nativeneighbourhood">
+            <param name="plugin.dir.exploded" value="${nativeneighbourhood.plugin.exploded.dir}"/>
+        </antcall>
+        <antcall target="plugin.build.jar.nativeneighbourhood">
+            <param name="plugin.path.jar" value="${nativeneighbourhood.path.jar}"/>
+        </antcall>
+    </target>
+
+    <!-- Call the target to build exploded directory for module 'NativeNeighbourhood'.\n       Path to the exploded directory is specified by parameter 'plugin.dir.exploded' -->
+    <target name="plugin.build.exploded.nativeneighbourhood"
+            description="Plugin exploded directory for module 'NativeNeighbourhood'">
+        <copy todir="${plugin.dir.exploded}/classes">
+            <fileset dir="${module.nativeneighbourhood.basedir}/classes"/>
+        </copy>
+        <copy file="${module.nativeneighbourhood.basedir}/META-INF/plugin.xml"
+              tofile="${plugin.dir.exploded}/META-INF/plugin.xml"/>
+    </target>
+
+    <!-- Call the target to build archive for module 'NativeNeighbourhood'.\n       Path to the archive file is specified by parameter 'plugin.path.jar' -->
+    <target name="plugin.build.jar.nativeneighbourhood"
+            description="Build plugin archive for module 'NativeNeighbourhood'">
+        <zip destfile="${nativeneighbourhood.path.jar}" duplicate="preserve">
+            <zipfileset dir="${module.nativeneighbourhood.basedir}/classes" prefix="NativeNeighbourhood/classes"/>
+            <zipfileset file="${module.nativeneighbourhood.basedir}/META-INF/plugin.xml"
+                        prefix="NativeNeighbourhood/META-INF"/>
+            <!--      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>-->
+        </zip>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.nativeneighbourhood" description="cleanup all"/>
+
+    <target name="all" depends="init, clean, plugin.build.nativeneighbourhood" description="build all"/>
+</project>
