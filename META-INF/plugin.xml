@@ -1,8 +1,10 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin url="http://code.google.com/p/nativeneighbourhood/" version="2">
 	<name>Native Neighbourhood</name>
-    <description>Provides some actions to integrate IDEA into the native desktop environment.
-        <![CDATA[<p>Actions include executing the currently active file in the platform's <b>default
+    <description>
+        <![CDATA[
+        <p>Provides some actions to integrate IDEA into the native desktop environment.</p>
+        <p>Actions include executing the currently active file in the platform's <b>default
         application</b>, showing the active file in the platform <b>file manager</b> and opening a <b>command
         shell</b> in the active file's directory.
         </p><p>
@@ -24,7 +26,8 @@
         The labels may be customized in <code>META-INF/plugin.xml</code> in plugin directory.
         The associated extensions may be configured in <code>other.xml</code> or using the filetypes-applet
         in IDEA configuration.
-        </p>]]>
+        </p>
+        ]]>
     </description>
     <change-notes>
     <![CDATA[
