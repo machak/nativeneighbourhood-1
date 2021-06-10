@@ -1,0 +1,149 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin url="http://code.google.com/p/nativeneighbourhood/" version="2">
+	<name>Native Neighbourhood</name>
+    <description>
+        <![CDATA[
+        <p>Provides some actions to integrate IDEA into the native desktop environment.</p>
+        <p>Actions include executing the currently active file in the platform's <b>default
+        application</b>, showing the active file in the platform <b>file manager</b> and opening a <b>command
+        shell</b> in the active file's directory.
+        </p><p>
+        Integrates the actions into Tools-menu and main toolbar and provides an entry for the
+        <b>SelectInTarget</b>-Menu to show in file manager.
+        </p><p>
+        Additionally a custom <b>binary file type</b> is registered and associated with several extensions.
+        These files may be executed in the platform's default application by double-clicking them
+        in the project view, for example.
+        </p><p>
+        Furthermore from native file manager <b>files may be dropped</b> on unused areas of the idea
+        frame (empty space in toolwindowbars, editor tab area, toolbar, menubar and statusbar).
+        </p><p>
+        The action commands may be configured in <code>config/options/other.xml</code> in section
+        <code>NativeNeighbourhoodPlugin</code>. Supported replacement variables are
+        <code>$FilePath$, $FileDir$, $FileName$</code> and <code>$PluginsHome$</code>. All Icons
+        are loaded from configured "iconsDir" below <code>/org/intellij/plugins/nativeNeighbourhood/icons/</code>.
+        </p><p>
+        The labels may be customized in <code>META-INF/plugin.xml</code> in plugin directory.
+        The associated extensions may be configured in <code>other.xml</code> or using the filetypes-applet
+        in IDEA configuration.
+        </p>
+        ]]>
+    </description>
+    <change-notes>
+    <![CDATA[
+    <h3>Release 1.3.1 - Support for Ubuntu 12 (xdg-open)</h3>
+    <ul><li>
+    Includes default action xdg-open instead of gnome-open, see <a href="http://portland.freedesktop.org/xdg-utils-1.0/xdg-open.html">FreeDesktop Standard</a>. Only applied on first install of the plugin. Otherwise you have to remove the plugin's config entry from other.xml (while the IDE is closed). See [http://code.google.com/p/nativeneighbourhood/wiki/FAQ#Platform_Detection here].
+    </li><li>
+    Should find active file even if active editor is not focused.
+    </li><li>
+    Fix for Bug #15 (Exception dropping in hierarchy view)
+    </li><li>
+    Internal cleanups (removed some deprecated API usages)
+    </li></ul>
+    <h3>Release 1.3.0 - Support other IDEs based on the IntelliJ platform</h3>
+    <ul><li>
+    Should now work on RubyMine, PyCharm, PhpStorm, WebStorm etc.
+    </li></ul>
+    <h3>Release 1.2.2 - Minor issues</h3>
+    <ul><li>
+    Fix: Preventing complete reindexing on every start for IDEA 8 and later. (Open API Change:
+    <a href="http://youtrack.jetbrains.net/issue/IDEA-25207">IDEA-25207</a>)
+    </li><li>
+    Feature: Show directory path in terminal window title on windows
+    (<a href="http://code.google.com/p/nativeneighbourhood/issues/detail?id=3">Issue 3</a>)
+    </li></ul>
+    <h3>Release 1.2.1 - Bugfixes</h3>
+    <ul><li>
+    Fixing Command Shell on Windows.
+    </li><li>
+    Fixing FileManager & Command Shell on Mac OS X.
+    </li></ul>
+    <h3>Release 1.2 - Linux support</h3>
+    <ul><li>
+    Linux/Gnome Support out of the box (many thanks to Nikita Belenkiy).
+    </li><li>
+    Linux/KDE Support out of the box (thanks to Clifton Craig).
+    </li></ul>
+    <h3>Release 1.1.1</h3>
+    <ul><li>
+    Platform's default application executes in selected file's parent directory.
+    </li><li>
+    Bugfix concerning problem with different project-frames.
+    </li></ul>
+    <h3>Release 1.1 - Dropping files, Mac OS X Support</h3>
+    <ul><li>Dropping of files from native file manager opens idea editors (known issue:
+            Dropping unknown filetypes silently fails.) Drop Targets are unused areas of the idea
+            frame (empty space in toolwindowbars, editor tab area, toolbar, menubar and statusbar).
+    </li><li>Mac OS X Support out of the box (many thanks to Denis N. Antonioli).
+             Initializing with default configuration according to autodetected Mac OS X is only done
+             for missing config entry "NativeNeighbourhoodPlugin" in <code>other.xml</code>.
+    </li><li>Icons are loaded using configured subdir (other.xml), no more need to edit plugin.xml.
+    </li></ul>
+    ]]>
+    </change-notes>
+  <version>1.3.3</version>
+      <id>com.nativeneighbourhood.id</id>
+
+    <vendor url="http://plugins.intellij.net/plugin/?id=38"
+            email="&#102;&#46;&#98;&#114;&#117;&#99;&#104;&#64;&#103;&#109;&#120;&#46;&#110;&#101;&#116;">Frank Bruch</vendor>
+
+    <idea-version since-build="8000"/><!-- IDEA 8 acc. to http://www.jetbrains.net/confluence/display/IDEADEV/Build+Number+Ranges -->
+    <!--idea-version since-build="93.13" until-build="94.0"/--> <!-- 9.0 up to 10.0 (excluding) -->
+
+    <!-- Mark the plugin as compatible with RubyMine and other products based on the IntelliJ platform -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="org.intellij.plugins.nativeNeighbourhood.NativeFileTypeFactory"/>
+    </extensions>
+    <application-components>
+        <component>
+            <implementation-class>org.intellij.plugins.nativeNeighbourhood.Configurator</implementation-class>
+        </component>
+        <component>
+            <implementation-class>org.intellij.plugins.nativeNeighbourhood.selectIn.SelectInTargetManager</implementation-class>
+        </component>
+        <component>
+            <implementation-class>org.intellij.plugins.nativeNeighbourhood.dummyEditor.NativeFileEditorProvider</implementation-class>
+        </component>
+    </application-components>
+    <project-components>
+        <component>
+            <implementation-class>org.intellij.plugins.nativeNeighbourhood.dropTarget.DropTargetProvider</implementation-class>
+        </component>
+    </project-components>
+    <actions>
+        <action id="NativeNeighbourhood.StartAction"
+                class="org.intellij.plugins.nativeNeighbourhood.actions.StartAction" text="Execute with default application"
+                description="Execute active file with system standard application">
+            <keyboard-shortcut first-keystroke="alt shift X" keymap="$default"/>
+            <!--<mouse-shortcut keystroke="alt shift button1" keymap="$default"/>-->
+        </action>
+        <action id="NativeNeighbourhood.ShowAction"
+                class="org.intellij.plugins.nativeNeighbourhood.actions.ShowAction" text="Show in file manager"
+                description="Show active file in system standard file manager">
+            <keyboard-shortcut first-keystroke="alt shift O" keymap="$default"/>
+            <!--<mouse-shortcut keystroke="alt shift button3" keymap="$default"/>-->
+        </action>
+        <action id="NativeNeighbourhood.ShellAction"
+                class="org.intellij.plugins.nativeNeighbourhood.actions.ShellAction" text="Open command shell"
+                description="Open command shell in current file's parent folder">
+            <keyboard-shortcut first-keystroke="alt shift S" keymap="$default"/>
+            <!--<mouse-shortcut keystroke="alt shift button3" keymap="$default"/>-->
+        </action>
+        <group id="NativeNeighbourhood.Actions">
+            <separator/>
+            <reference ref="NativeNeighbourhood.StartAction"/>
+            <reference ref="NativeNeighbourhood.ShowAction"/>
+            <reference ref="NativeNeighbourhood.ShellAction"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>
+            <!--<add-to-group group-id="ViewMenu" anchor="last"/>-->
+            <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
+            <!--<add-to-group group-id="EditorPopupMenu" anchor="last"/>-->
+            <!--<add-to-group group-id="CommanderPopupMenu" anchor="last"/>-->
+            <!--      <add-to-group group-id="MainMenu" anchor="last"/>-->
+        </group>
+    </actions>
+</idea-plugin>

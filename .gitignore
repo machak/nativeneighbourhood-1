@@ -7,4 +7,8 @@
 *.ipr
 target
 bin
-out
+out/
+target/
+build/
+.gradle/
+gradle/
