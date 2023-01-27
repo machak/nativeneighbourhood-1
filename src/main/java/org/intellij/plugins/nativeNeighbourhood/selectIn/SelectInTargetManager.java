@@ -32,7 +32,7 @@ public class SelectInTargetManager implements ApplicationComponent, ProjectManag
         return SelectInTargetManager.class.getName();
     }
 
-    public void initComponent() {
+  /*  public void initComponent() {
         ProjectManager.getInstance().addProjectManagerListener(this);
     }
 
@@ -43,10 +43,8 @@ public class SelectInTargetManager implements ApplicationComponent, ProjectManag
     public void projectOpened(Project pProject) {
         SelectInManager.getInstance(pProject).addTarget(selectInFileManagerTarget);
     }
+*/
 
-    public boolean canCloseProject(Project pProject) {
-        return true;
-    }
 
     public void projectClosed(Project pProject) {
         SelectInManager.getInstance(pProject).removeTarget(selectInFileManagerTarget);

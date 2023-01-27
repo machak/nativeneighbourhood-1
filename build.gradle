@@ -1,6 +1,6 @@
 plugins {
   id 'java'
-  id "org.jetbrains.intellij" version "0.7.3"
+  id "org.jetbrains.intellij" version "1.12.0"
 }
 
 apply plugin: 'idea'
@@ -27,15 +27,15 @@ dependencies {
   //testCompile group: 'junit', name: 'junit', version: '4.12'
 
 }
-patchPluginXml {
-  sinceBuild '163'
-  //untilBuild '184'
-}
+
 
 intellij {
-  version = '2021.1.1'
-}
-patchPluginXml {
-  changeNotes = """ Update to 2021 version  """
+  version = '2022.3.1'
 }
 
+patchPluginXml {
+  //sinceBuild.set( '163')
+  //sinceBuild.set( '163')
+  untilBuild.set( '231.*')
+  //untilBuild '184'
+}

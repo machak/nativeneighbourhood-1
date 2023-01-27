@@ -236,12 +236,12 @@ public abstract class Util {
 
     public static Icon loadIconFromDir(String pImageFile, String pIconsDir) {
         String tResourcePath = "/org/intellij/plugins/nativeNeighbourhood/icons/"
-                + pIconsDir + "/" + pImageFile;
+                + pIconsDir + '/' + pImageFile;
         Icon tResult = null;
         try {
             URL tUrl = Util.class.getResource(tResourcePath);
             if (tUrl != null) {
-                tResult = IconLoader.getIcon(tResourcePath);
+                tResult = IconLoader.getIcon(tResourcePath, Util.class);
             }
         } catch (Exception e) {
             // nothing here, message printed in finally
@@ -250,7 +250,7 @@ public abstract class Util {
                 String msg = "Failed to load icon resource named " + tResourcePath;
                 System.err.println(msg);
                 log.warn(msg);
-                tResult = IconLoader.getIcon(Configuration.FALLBACK_ICON_PATH);
+                tResult = IconLoader.getIcon(Configuration.FALLBACK_ICON_PATH, Util.class);
             }
         }
         return tResult;
